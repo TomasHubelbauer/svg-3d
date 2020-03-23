@@ -37,6 +37,9 @@ Right now the camera is stuck at the origin and the meshes have to transform.
 
 This will make it easy to tesselate meshes and then lay them out in the scene.
 
+- https://en.wikipedia.org/wiki/3D_projection#Mathematical_formula
+- https://stackoverflow.com/q/18404890/2715716
+
 ### Implement rendering Wavefront model files as wireframes
 
 This will make it possible to render models designed in Blender and exported to
