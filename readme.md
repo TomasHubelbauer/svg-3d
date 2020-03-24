@@ -54,3 +54,5 @@ thickness of the edge stroke changes as the edge progresses from one point to
 the next. This will dynamically change the amount of line segments in the edge
 thus breaking the initial premise of a static amount of shapes in the SVG across
 all transformations.
+
+### Implement exporting 3D wireframe animations using CSS animations in SVG
