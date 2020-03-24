@@ -1,4 +1,4 @@
-# SVG 3D
+# [SVG 3D](https://tomashubelbauer.github.io/svg-3d)
 
 Primitive 3D wireframe model rendering using SVG polylines.
 
