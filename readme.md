@@ -43,3 +43,14 @@ https://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations
 
 This will make it possible to render models designed in Blender and exported to
 Wavefront.
+
+### Experiment with depth-sensitive strokes
+
+This is not fit for the general thing, but it will be cool to try:
+
+Define the mesh using points and edges, but when rendering the edges, do not use
+a polyline, but instead multiple lines which break at the points where the
+thickness of the edge stroke changes as the edge progresses from one point to
+the next. This will dynamically change the amount of line segments in the edge
+thus breaking the initial premise of a static amount of shapes in the SVG across
+all transformations.
