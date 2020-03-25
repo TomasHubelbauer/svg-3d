@@ -12,21 +12,21 @@ const step3 = Math.PI * 1.5;
 
 function project(point, camera, cameraOrientation) {
   const rotationAroundX = [
-    [1, 0, 0],
-    [0, Math.cos(cameraOrientation[0]), Math.sin(cameraOrientation[0])],
-    [0, -Math.sin(cameraOrientation[0]), Math.cos(cameraOrientation[0])],
+    1, 0, 0,
+    0, Math.cos(cameraOrientation[0]), Math.sin(cameraOrientation[0]),
+    0, -Math.sin(cameraOrientation[0]), Math.cos(cameraOrientation[0]),
   ];
 
   const rotationAroundY = [
-    [Math.cos(cameraOrientation[1]), 0, -Math.sin(cameraOrientation[1])],
-    [0, 1, 0],
-    [Math.sin(cameraOrientation[1]), 0, Math.cos(cameraOrientation[1])],
+    Math.cos(cameraOrientation[1]), 0, -Math.sin(cameraOrientation[1]),
+    0, 1, 0,
+    Math.sin(cameraOrientation[1]), 0, Math.cos(cameraOrientation[1]),
   ];
 
   const rotationAroundZ = [
-    [Math.cos(cameraOrientation[2]), Math.sin(cameraOrientation[2]), 0],
-    [-Math.sin(cameraOrientation[2]), Math.cos(cameraOrientation[2]), 0],
-    [0, 0, 1],
+    Math.cos(cameraOrientation[2]), Math.sin(cameraOrientation[2]), 0,
+    -Math.sin(cameraOrientation[2]), Math.cos(cameraOrientation[2]), 0,
+    0, 0, 1,
   ];
 
   const pointMinusCamera = subtract3x1From3x1(point, camera);
