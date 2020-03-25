@@ -53,3 +53,11 @@ all transformations.
 ### Implement sphere tesselation using various techniques
 
 Quads, tris, stripes.
+
+### Connect with a physics engine to use as a renderer and offload the physics
+
+- https://brm.io/matter-js
+- http://wellcaffeinated.net/PhysicsJS
+- http://piqnt.com/planck.js
+- https://github.com/lo-th/Oimo.js
+- https://github.com/kripken/box2d.js
