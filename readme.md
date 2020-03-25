@@ -49,3 +49,7 @@ thus breaking the initial premise of a static amount of shapes in the SVG across
 all transformations.
 
 ### Implement exporting 3D wireframe animations using CSS animations in SVG
+
+### Implement sphere tesselation using various techniques
+
+Quads, tris, stripes.
