@@ -33,16 +33,9 @@ having to do with SVG and 3D.
 
 Right now the camera is stuck at the origin and the meshes have to transform.
 
-### Implement matrix transforms to make it easy to translate, scale and rotate meshes
+### Implement missing model transformations (translate, scale, skew)
 
-This will make it easy to tesselate meshes and then lay them out in the scene.
-
-https://en.wikipedia.org/wiki/Rotation_matrix#Basic_rotations
-
-### Implement rendering Wavefront model files as wireframes
-
-This will make it possible to render models designed in Blender and exported to
-Wavefront.
+### Compute bounding box of OBJ mesh and camera position based on it
 
 ### Experiment with depth-sensitive strokes
 
