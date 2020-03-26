@@ -35,8 +35,6 @@ Right now the camera is stuck at the origin and the meshes have to transform.
 
 ### Implement missing model transformations (translate, scale, skew)
 
-### Compute bounding box of OBJ mesh and camera position based on it
-
 ### Experiment with depth-sensitive strokes
 
 This is not fit for the general thing, but it will be cool to try:
@@ -63,3 +61,27 @@ Quads, tris, stripes.
 - https://github.com/kripken/box2d.js
 
 ### Implement the mesh + model transform & world transform model
+
+### Try to implement face overlapping using gradients/masks
+
+When the faces are not overlapping, ordering them from back to front in camera
+order should preserve the correct depth perception.
+
+When faces to overlap, the face being overlapped could instead of having a solid
+fill have a fill which consists of a linear gradient (if the face is split in
+half) or a more complex mask to make it obscure a part of itself which is not
+supposed to be seen.
+
+This same thing won't work for strokes, so perhaps faces which have a material
+should only have fill and those who don't should only have stroke, so the user
+can either opt into having a wireframe be rendered or a textured mesh.
+
+This same thing could also work for strokes maybe if all strokes were rendered
+as polylines if there is a CSS/SVG way to render the various polyline segments
+with a different stroke. This way, the line could be chopped up (in the points
+attribute, not duplicated in the SVG DOM) at line intersections.
+
+If this works, it would also enable wireframes where hidden edges are drawn in a
+different stroke.
+
+### Add support for JSON (or whatever) models which could use edges, too

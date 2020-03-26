@@ -1,23 +1,22 @@
 import width from './width.js';
 import height from './height.js';
-import { mount, reconcile } from './scene.js';
+import render from './render.js';
+import parse from './models/parse.js';
 
 window.addEventListener('load', () => {
   const canvasSvg = document.getElementById('canvasSvg');
   canvasSvg.setAttribute('width', width);
   canvasSvg.setAttribute('height', height);
 
-  let render;
-  function go(shapes) {
-    canvasSvg.innerHTML = '';
-    mount(shapes);
-    render = window.requestAnimationFrame(function loop() {
-      reconcile();
-      render = window.requestAnimationFrame(loop);
+  let handle;
+  function go(mesh) {
+    window.cancelAnimationFrame(handle);
+    render(mesh, canvasSvg);
+    handle = window.requestAnimationFrame(function loop() {
+      render(mesh, canvasSvg);
+      handle = window.requestAnimationFrame(loop);
     });
   }
-
-  go();
 
   const previewButton = document.getElementById('previewButton');
   previewButton.addEventListener('click', () => {
@@ -37,60 +36,8 @@ window.addEventListener('load', () => {
       const fileReader = new FileReader();
 
       fileReader.addEventListener('load', () => {
-        const points = [];
-        const shapes = [];
-
-        let index = 0;
-        const lines = fileReader.result.split('\n');
-        for (const line of lines) {
-          index++;
-
-          // Skip blank lines
-          if (!line) {
-            continue;
-          }
-
-          // Skip comment lines
-          if (line.startsWith('#')) {
-            continue;
-          }
-
-          const parts = line.split(' ');
-          switch (parts[0]) {
-            // Ignore material library
-            case 'mtllib': {
-              continue;
-            }
-            // Ignore texture coordinates
-            case 'vt': {
-              continue;
-            }
-            // Ignore texture normals
-            case 'vn': {
-              continue;
-            }
-            // Ignore material assignment
-            case 'usemtl': {
-              continue;
-            }
-            case 'v': {
-              points.push([Number(parts[1]), Number(parts[2]), Number(parts[3])]);
-              break;
-            }
-            case 'f': {
-              const indices = parts.slice(1).map(p => Number(p.split('/')[0]));
-              shapes.push({ type: 'face', index, indices, points: indices.map(i => points[i - 1]) });
-              break;
-            }
-            default: {
-              alert(`Unexpected command ${parts[0]}`);
-              return;
-            }
-          }
-        }
-
-        window.cancelAnimationFrame(render);
-        go(shapes);
+        const mesh = parse(fileReader.result);
+        go(mesh);
       });
 
       fileReader.addEventListener('error', () => {
@@ -102,4 +49,26 @@ window.addEventListener('load', () => {
 
     input.click();
   });
+
+  for (const model of ['Box', 'Desk'].reverse() /* Counter-act DOM insertion order */) {
+    const modelButton = document.createElement('button');
+    modelButton.textContent = model;
+    modelButton.addEventListener('click', async () => {
+      try {
+        const response = await fetch('./models/' + model + '.obj');
+        const text = await response.text();
+        const mesh = parse(text);
+        go(mesh);
+      }
+      catch (error) {
+        alert('Failed to load the model.');
+        throw error;
+      }
+    });
+
+    canvasSvg.insertAdjacentElement('afterend', modelButton);
+    if (model === 'Box') {
+      modelButton.click();
+    }
+  }
 });
