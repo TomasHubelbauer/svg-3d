@@ -54,7 +54,7 @@ function render() {
     shapes = JSON.parse(JSON.stringify(overrideShapes));
 
     const center = [0, 0, -10];
-    const rotation = [0, 0, t];
+    const rotation = [t, t, t];
 
     for (const shape of shapes) {
       switch (shape.type) {
@@ -63,7 +63,7 @@ function render() {
         }
         case 'face': {
           // Scale and translate for the camera we have
-          shape.points = shape.points.map(p => rotate([p[0] / 20, p[1] / 20, 10 + p[2] / 20], center, rotation));
+          shape.points = shape.points.map(p => rotate([p[0] / 20, p[1] / 20, -10 + p[2] / 20], center, rotation));
           break;
         }
         default: {
