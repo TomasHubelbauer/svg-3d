@@ -84,4 +84,6 @@ attribute, not duplicated in the SVG DOM) at line intersections.
 If this works, it would also enable wireframes where hidden edges are drawn in a
 different stroke.
 
+And it looks like it might work: https://stackoverflow.com/q/42874203/2715716
+
 ### Add support for JSON (or whatever) models which could use edges, too
