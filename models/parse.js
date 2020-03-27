@@ -125,6 +125,10 @@ export default function parse(text) {
       case 's': {
         continue;
       }
+      // Ignore object name
+      case 'o': {
+        continue;
+      }
       default: {
         alert(`Unexpected command '${parts[0]}' on line ${index}: '${line}'.`);
         return;

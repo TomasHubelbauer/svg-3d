@@ -98,3 +98,7 @@ say two Beziers making up a single ellipse?
 The question is whether it is worth the effort, if the reduced DOM node count
 will matter when faced with the rasterization complexity of ellipses as opposed
 to polylines (is it more expensive?).
+
+### Fix the cottage model missing most faces in the render
+
+### Fix the cat and dog models being too far away from the camera and flat
