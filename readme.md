@@ -48,6 +48,8 @@ all transformations.
 
 ### Implement exporting 3D wireframe animations using CSS animations in SVG
 
+Maybe even SVG native animations: https://stackoverflow.com/a/30886427/2715716
+
 ### Implement sphere tesselation using various techniques
 
 Quads, tris, stripes.
@@ -85,6 +87,8 @@ If this works, it would also enable wireframes where hidden edges are drawn in a
 different stroke.
 
 And it looks like it might work: https://stackoverflow.com/q/42874203/2715716
+
+Also https://css-tricks.com/svg-line-animation-works
 
 ### Add support for JSON (or whatever) models which could use edges, too
 
