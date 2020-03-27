@@ -58,7 +58,7 @@ window.addEventListener('load', () => {
     input.click();
   });
 
-  for (const model of ['Box', 'Desk'].reverse() /* Counter-act DOM insertion order */) {
+  for (const model of ['Box', 'Desk', 'Dog'].reverse() /* Counter-act DOM insertion order */) {
     const modelButton = document.createElement('button');
     modelButton.textContent = model;
     modelButton.addEventListener('click', async () => {
