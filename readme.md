@@ -87,3 +87,14 @@ different stroke.
 And it looks like it might work: https://stackoverflow.com/q/42874203/2715716
 
 ### Add support for JSON (or whatever) models which could use edges, too
+
+### Add ellipses among the supported shapes and see if their perspective representation can be approximated
+
+I will have to research this, but I believe an ellipse in 3D might still be
+representable using an ellipse in 2D even accounting for its orientation and
+perspective distortion. And if not an ellipse, perhaps a combination of ars,
+say two Beziers making up a single ellipse?
+
+The question is whether it is worth the effort, if the reduced DOM node count
+will matter when faced with the rasterization complexity of ellipses as opposed
+to polylines (is it more expensive?).
