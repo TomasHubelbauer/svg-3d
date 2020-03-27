@@ -106,3 +106,12 @@ to polylines (is it more expensive?).
 ### Fix the cottage model missing most faces in the render
 
 ### Fix the cat and dog models being too far away from the camera and flat
+
+### Introduce mutating methods for matrix and point manipulation to avoid allocations
+
+### Introduce a reproducible Puppeteer harness for profiling performance improvements
+
+### Figure out what's broken in `render-wip` compared to `render`
+
+The WIP version is much faster, because it cuts down on allocations, but I made
+a mistake somewhere and now the mesh slides towards the origin as it rotates.

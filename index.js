@@ -14,9 +14,10 @@ window.addEventListener('load', () => {
   function go(mesh) {
     infoSpan.textContent = `${mesh.shapes.length} shapes`;
     window.cancelAnimationFrame(handle);
-    render(mesh, canvasSvg);
     handle = window.requestAnimationFrame(function loop() {
+      const stamp = performance.now();
       render(mesh, canvasSvg);
+      document.title = `${performance.now() - stamp} script time per frame`;
       handle = window.requestAnimationFrame(loop);
     });
   }
@@ -58,7 +59,7 @@ window.addEventListener('load', () => {
     input.click();
   });
 
-  for (const model of ['Box', 'Desk', 'Dog', 'Cat', 'Cottage', 'Sofa'].reverse() /* Counter-act DOM insertion order */) {
+  for (const model of ['Box', 'Prism', 'Desk', 'Dog', 'Cat', 'Cottage', 'Sofa'].reverse() /* Counter-act DOM insertion order */) {
     const modelButton = document.createElement('button');
     modelButton.textContent = model;
     modelButton.addEventListener('click', async () => {
