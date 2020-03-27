@@ -10,8 +10,7 @@ export default function parse(text) {
 
   let index = 0;
 
-  // TODO: Add support for CRLF
-  const lines = text.split('\n');
+  const lines = text.split(/\r?\n/g);
   for (const line of lines) {
     index++;
 
@@ -48,6 +47,21 @@ export default function parse(text) {
         const y = Number(parts[2]);
         const z = Number(parts[3]);
 
+        if (Number.isNaN(x)) {
+          alert(`Invalid number '${parts[1]}' on line ${index}: '${line}'.`);
+          return;
+        }
+
+        if (Number.isNaN(y)) {
+          alert(`Invalid number '${parts[2]}' on line ${index}: '${line}'.`);
+          return;
+        }
+
+        if (Number.isNaN(z)) {
+          alert(`Invalid number '${parts[3]}' on line ${index}: '${line}'.`);
+          return;
+        }
+
         if (minX === undefined || x < minX) {
           minX = x;
         }
@@ -76,12 +90,43 @@ export default function parse(text) {
         break;
       }
       case 'f': {
-        const indices = parts.slice(1).map(p => Number(p.split('/')[0]));
-        shapes.push({ type: 'face', points: indices.map(i => points[i - 1]) });
+        /** @type {Number[]} */
+        const p = [];
+        for (const part of parts.slice(1)) {
+          // Ignore "empty" part at the end of line or in case of multiple spaces
+          if (!part) {
+            continue;
+          }
+
+          const i = Number(part.split('/')[0]);
+
+          if (Number.isNaN(i)) {
+            alert(`Invalid number '${part}' on line ${index}: '${line}'.`);
+            return;
+          }
+
+          const point = points[i - 1];
+          if (!point) {
+            alert(`Invalid index '${i}' on line ${index}: '${line}'.`);
+            return;
+          }
+
+          p.push(point);
+        }
+
+        shapes.push({ type: 'face', points: p });
         break;
       }
+      // Ignore grouping commands
+      case 'g': {
+        continue;
+      }
+      // Ignore grouping commands
+      case 's': {
+        continue;
+      }
       default: {
-        alert(`Unexpected command ${parts[0]}`);
+        alert(`Unexpected command '${parts[0]}' on line ${index}: '${line}'.`);
         return;
       }
     }

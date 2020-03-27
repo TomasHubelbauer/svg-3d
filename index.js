@@ -8,8 +8,11 @@ window.addEventListener('load', () => {
   canvasSvg.setAttribute('width', width);
   canvasSvg.setAttribute('height', height);
 
+  const infoSpan = document.getElementById('infoSpan');
+
   let handle;
   function go(mesh) {
+    infoSpan.textContent = `${mesh.shapes.length} shapes`;
     window.cancelAnimationFrame(handle);
     render(mesh, canvasSvg);
     handle = window.requestAnimationFrame(function loop() {
@@ -37,6 +40,11 @@ window.addEventListener('load', () => {
 
       fileReader.addEventListener('load', () => {
         const mesh = parse(fileReader.result);
+        if (!mesh) {
+          alert('Failed to load the mesh.');
+          return;
+        }
+
         go(mesh);
       });
 
@@ -58,6 +66,11 @@ window.addEventListener('load', () => {
         const response = await fetch('./models/' + model + '.obj');
         const text = await response.text();
         const mesh = parse(text);
+        if (!mesh) {
+          alert('Failed to load the mesh.');
+          return;
+        }
+
         go(mesh);
       }
       catch (error) {
