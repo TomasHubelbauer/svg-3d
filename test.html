@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Test</title>
+    <style>
+      svg {
+        background: silver;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Test</h1>
+    <h2>Line animation</h2>
+    <svg width="800" height="600">
+      <line stroke="black">
+        <animate attributeName="x1" values="100;200;100" dur="1s" repeatCount="indefinite" />
+        <animate attributeName="y1" values="100;200;100" dur="1s" repeatCount="indefinite" />
+        <animate attributeName="x2" values="400;300;400" dur="1s" repeatCount="indefinite" />
+        <animate attributeName="y2" values="400;300;400" dur="1s" repeatCount="indefinite" />
+      </line>
+    </svg>
+    <h2>Polyline animation</h2>
+    <svg width="800" height="600">
+      <polyline stroke="black" fill="none">
+        <animate attributeName="points" values="100,200 400,300 200,300;200,100 300,400 300,200;100,200 400,300 200,100;100,200 400,300 200,300" dur="1s" repeatCount="indefinite" />
+      </polyline>
+    </svg>
+  </body>
+</html>
