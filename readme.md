@@ -27,6 +27,13 @@ Theoretically, animations could be made at least somewhat interactive using SMIL
 animation triggers (probably not in the SVG CSS animation case), but that's not
 an avenue I am pursuing at the moment.
 
+## Support
+
+| Animator | GitHub Readme Preview | GitHub SVG File Preview | VS Code MarkDown Preview |
+|----------|-----------------------|-------------------------|--------------------------|
+| SMIL     | No?                   | Yes                     | Yes                      |
+| CSS      | Yes                   | Yes                     | Yes                      |
+
 ## Maintenance Status
 
 This application is not really maintained.
@@ -37,6 +44,15 @@ There is [Z-Dog](https://zzz.dog/) and also a lot of other people's pet projects
 having to do with SVG and 3D.
 
 ## To-Do
+
+### Figure out why the SVG SMIL animation does not play on GitHub
+
+It renders an empty SVG in the readme preview on the repo home page, but going
+to the screencast file page directly, the preview there renders the SMIL
+animation. If this ends up being unsuppoted by GitHub, definitely support both
+SMIL and CSS animators and use the CSS animator in the readme, which I already
+know works, because I've used in
+[`svg-screencast`](https://github.com/tomashubelbauer/svg-screencast).
 
 ### Implement SVG CSS animation too and compare the sizes of the two generators
 
