@@ -1,6 +1,7 @@
 import width from './width.js';
 import height from './height.js';
 import render from './render.js';
+import mount from './mount.js';
 import parse from 'https://tomashubelbauer.github.io/esm-obj/index.js';
 import plot from 'https://tomashubelbauer.github.io/esm-svg-timeseries/index.js';
 
@@ -14,13 +15,21 @@ window.addEventListener('load', () => {
 
   let handle;
   function go(mesh) {
+    // Cache the shapes so that they can be cloned for mutability
+    const shapesText = JSON.stringify(mesh.shapes);
+
     infoSpan.textContent = `${mesh.shapes.length} shapes`;
     window.cancelAnimationFrame(handle);
+
+    // Clear the SVG to mount instead of attempt to reconcile
+    canvasSvg.innerHTML = '';
+
     const data = [];
     let stick = 0;
     handle = window.requestAnimationFrame(function loop() {
       const stamp = performance.now();
-      render(mesh, canvasSvg);
+      let shapes = JSON.parse(shapesText);
+      shapes = render(shapes, mesh.maxZ, mesh.minZ);
       const value = performance.now() - stamp;
       if (value > stick) {
         stick = value;
@@ -32,6 +41,9 @@ window.addEventListener('load', () => {
       }
 
       plot(plotSvg, data, 0, stick);
+      const average = ~~(data.reduce((a, c) => a + c.value, 0) / data.length);
+      document.title = average;
+      mount(canvasSvg, shapes);
       handle = window.requestAnimationFrame(loop);
     });
   }

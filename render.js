@@ -39,18 +39,17 @@ function project(point, camera, cameraOrientation) {
   return [(width / 2) + x * size, (height / 2) + y * size];
 }
 
-let _mesh;
-export default function render(mesh, canvasSvg) {
+export default function render(_shapes, maxZ, minZ) {
   const t = window.performance.now() / 1000;
   const camera = [0, 0, 0];
   const cameraOrientation = [0, 0, 0];
-  const shapes = [];
-  const offset = -(mesh.maxZ - mesh.minZ) * 2;
+  const offset = -(maxZ - minZ) * 2;
   const center = [0, 0, offset];
   const rotation = [t, t, t];
+  const shapes = [];
 
   // Apply the model transformation
-  for (const shape of mesh.shapes) {
+  for (const shape of _shapes) {
     switch (shape.type) {
       // NOTE: Unused in OBJ but supported for the future
       case 'edge': {
@@ -89,78 +88,5 @@ export default function render(mesh, canvasSvg) {
     }
   }
 
-  // Mount new mesh
-  if (mesh !== _mesh) {
-    const fragment = document.createDocumentFragment();
-    for (const shape of shapes) {
-      switch (shape.type) {
-        case 'edge': {
-          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-          line.setAttribute('x1', shape.from[0]);
-          line.setAttribute('y1', shape.from[1]);
-          line.setAttribute('x2', shape.to[0]);
-          line.setAttribute('y2', shape.to[1]);
-          line.setAttribute('stroke', 'black');
-          line.setAttribute('fill', 'none');
-          fragment.append(line);
-          break;
-        }
-        case 'face': {
-          const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-          polyline.setAttribute('points', shape.points);
-          polyline.setAttribute('stroke', 'black');
-          polyline.setAttribute('fill', 'none');
-          fragment.append(polyline);
-          break;
-        }
-        default: {
-          throw new Error(`Invalid shape type ${shape.type}.`);
-        }
-      }
-    }
-
-    canvasSvg.innerHTML = '';
-    canvasSvg.append(fragment);
-  }
-  // Reconcile the DOM changes
-  else {
-    let index = 0;
-    for (const shape of shapes) {
-      const element = canvasSvg.children[index];
-      if (!element) {
-        throw new Error('The DOM has changed unexpectedly.');
-      }
-
-      switch (shape.type) {
-        case 'edge': {
-          if (element.tagName !== 'line') {
-            throw new Error('The DOM has changed unexpectedly.');
-          }
-
-          element.setAttribute('x1', shape.from[0]);
-          element.setAttribute('y1', shape.from[1]);
-          element.setAttribute('x2', shape.to[0]);
-          element.setAttribute('y2', shape.to[1]);
-          break;
-        }
-        case 'face': {
-          if (element.tagName !== 'polyline') {
-            throw new Error('The DOM has changed unexpectedly.');
-          }
-
-          element.setAttribute('points', shape.points);
-          break;
-        }
-        default: {
-          throw new Error(`Invalid shape type ${shape.type}.`);
-        }
-      }
-
-      index++;
-    }
-
-    if (canvasSvg.children.length !== index) {
-      throw new Error('The DOM has changed unexpectedly.');
-    }
-  }
+  return shapes;
 }
