@@ -2,6 +2,10 @@
 
 ![](screencast.svg)
 
+**Note:** GitHub doesn't seem to support SVG SMIL animation in readme previews,
+until I develop a SVG CSS animator, please click the empty space above to go to
+the SVG file preview directly.
+
 This is a proof of concept application for rendering SVG 3D animations and to an
 extend rendering interactive 3D scenes in the browser.
 
@@ -45,6 +49,16 @@ having to do with SVG and 3D.
 
 ## To-Do
 
+### Povide camera position and orientation to `render` from the outside
+
+### Attach rotation and translation to a transform array on the mesh
+
+Right now they sit in `render`. Once the `rotate` function is in `esm-matrix`,
+add one for translation and then a combining one for rotation around origin and
+use those in index to position the model before rendering it. Rendering will
+then only accept camera position and orientation and the mesh with its transform
+array.
+
 ### Figure out why the SVG SMIL animation does not play on GitHub
 
 It renders an empty SVG in the readme preview on the repo home page, but going
@@ -53,6 +67,14 @@ animation. If this ends up being unsuppoted by GitHub, definitely support both
 SMIL and CSS animators and use the CSS animator in the readme, which I already
 know works, because I've used in
 [`svg-screencast`](https://github.com/tomashubelbauer/svg-screencast).
+
+Also see if this is true only for the readme or any MarkDown preview.
+
+### Consider adding a tabbed UI with dynamic and static tabs
+
+Dynamic would host the SVG whose DOM gets updated using `requestAnimationFrame`
+and static would host the SVG with baked animation which only gets updated when
+the animation parameters change.
 
 ### Implement SVG CSS animation too and compare the sizes of the two generators
 

@@ -11,7 +11,7 @@ export default function animate(mesh) {
   const points = mesh.shapes.map(() => []);
 
   for (let lazySusan = 0; lazySusan <= Math.PI * 2; lazySusan += Math.PI / 20) {
-    const shapes = render(mesh.shapes, mesh.maxZ, mesh.minZ, lazySusan);
+    const shapes = render(mesh.shapes, mesh.maxZ, mesh.minZ, [lazySusan, lazySusan, lazySusan]);
     for (let shapeIndex = 0; shapeIndex < shapes.length; shapeIndex++) {
       const shape = shapes[shapeIndex];
       points[shapeIndex].push(shape.points.map(p => p.map(p => ~~p).join(',')).join(' '));

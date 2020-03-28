@@ -29,7 +29,8 @@ window.addEventListener('load', () => {
     let stick = 0;
     handle = window.requestAnimationFrame(function loop() {
       const stamp = performance.now();
-      const shapes = render(mesh.shapes, mesh.maxZ, mesh.minZ);
+      const t = window.performance.now() / 1000;
+      const shapes = render(mesh.shapes, mesh.maxZ, mesh.minZ, [t, t, t]);
       const value = performance.now() - stamp;
       if (value > stick) {
         stick = value;

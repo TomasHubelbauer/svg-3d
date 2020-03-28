@@ -5,8 +5,6 @@ import multiply3x3By3x1To3x1 from 'https://tomashubelbauer.github.io/esm-matrix/
 import width from './width.js';
 import height from './height.js';
 
-const size = Math.min(width, height) / 2;
-
 function rotate(point, origin, [x, y, z]) {
   const rotationAroundX = [
     1, 0, 0,
@@ -31,6 +29,7 @@ function rotate(point, origin, [x, y, z]) {
   return add3x1To3x1(originTransformedPoint, origin);
 }
 
+const size = Math.min(width, height) / 2;
 function project(point, camera, cameraOrientation) {
   const cameraTransformedPoint = rotate(point, camera, cameraOrientation);
   const display = [0, 0, 1];
@@ -39,13 +38,11 @@ function project(point, camera, cameraOrientation) {
   return [(width / 2) + x * size, (height / 2) + y * size];
 }
 
-export default function render(_shapes, maxZ, minZ, lazySusan) {
-  const t = window.performance.now() / 1000;
-  const camera = [0, 0, 0];
-  const cameraOrientation = [0, 0, 0];
+const camera = [0, 0, 0];
+const cameraOrientation = [0, 0, 0];
+export default function render(_shapes, maxZ, minZ, rotation) {
   const offset = -(maxZ - minZ) * 2;
   const center = [0, 0, offset];
-  const rotation = lazySusan !== undefined ? [lazySusan, lazySusan, lazySusan] : [t, t, t];
   const shapes = [];
 
   // Apply the model transformation
