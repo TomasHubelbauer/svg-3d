@@ -110,6 +110,14 @@ Something like this could be then made to work:
 The triangles, at the place where they overlap, would use a fill mask to implant
 the texture from the shared area of the shape that overlaps them at that area.
 
+Another thing this could help enable would be to hide shapes which are fully or
+partially behind the camera. Right now they appear and are distorted. When only
+partially outside (or behind) of the viewport, the Bresenham algorithm could be
+used on the edges of the face (in case of a shape with an area) in order to sort
+of "ray-trace" the length of the edge until it meets the edge and then use the
+above techniques to cull the rest of the edges and mask away the hidden portion
+of the shape's fill.
+
 Useful links for this:
 
 - https://stackoverflow.com/q/42874203/2715716

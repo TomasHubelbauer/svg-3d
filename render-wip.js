@@ -1,7 +1,7 @@
-import subtract3x1From3x1 from './matrix/subtract3x1From3x1.js';
-import add3x1To3x1 from './matrix/add3x1To3x1.js';
-import multiply3x3By3x3 from './matrix/multiply3x3By3x3.js';
-import multiply3x3By3x1To3x1 from './matrix/multiply3x3By3x1To3x1.js';
+import subtract3x1From3x1 from 'https://tomashubelbauer.github.io/esm-matrix/immutable/subtract3x1From3x1.js';
+import add3x1To3x1 from 'https://tomashubelbauer.github.io/esm-matrix/immutable/add3x1To3x1.js';
+import multiply3x3By3x3 from 'https://tomashubelbauer.github.io/esm-matrix/immutable/multiply3x3By3x3.js';
+import multiply3x3By3x1To3x1 from 'https://tomashubelbauer.github.io/esm-matrix/immutable/multiply3x3By3x1To3x1.js';
 import width from './width.js';
 import height from './height.js';
 
