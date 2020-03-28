@@ -1,26 +1,35 @@
 # [SVG 3D](https://tomashubelbauer.github.io/svg-3d)
 
-Primitive 3D wireframe model rendering using SVG polylines.
+![](screencast.svg)
 
-This is a proof of concept for rendering 3D wireframe models using SVG. I made
-it to see if it could be applicable for a problem I'm solving: anymating 3D
-wireframe models and scenes, which are static in the amount of vertices, edges
-and faces, but dynamic in terms of animation.
+This is a proof of concept application for rendering SVG 3D animations and to an
+extend rendering interactive 3D scenes in the browser.
 
-It seems to work well for this, but I have made no comparisons to WebGL and
-`canvas` based implementations. I am not sure if `canvas` is GPU-accelerated,
-nor if SVG is, so if it is, it will be at best the same as WebGL, if it isn't,
-it will be way worse (CPU rendering).
+SVG (SMIL) animations are used to make the rendered SVG 3D scene come to life.
+CSS in SVG animations could also potentially work, but are not tested yet.
 
-The only selling point of this solution is that it limits itself to wireframes,
-not shaded models. This is helpful, because once the polylines of the edges are
-mounted in the DOM, the DOM layout within the SVG remains constant and the only
-thing that changes are the `points` attributes (and possibly others later), so
-the DOM does not have to work anymore, only the vector rasterizer.
+This application benefits from the scene having a static amount of vertices,
+edges and faces. The animation generator right now assumes this and while the
+in-browser renderer can replace the SVG children on the fly to accomodate
+varying shape count, the DOM hit is likely to not make this a worthwhile effort.
+
+I do not intend to compete with WebGL or `canvas` (which is GPU accelerated I
+think) in terms of performance, ease of use or anything else. However, SVG
+rendering might also be GPU accelerated and if that's the case, it should be
+equally fast barring any parsing and rasterizing overhead. This is going to
+depend on the SVG rendered of the given browser.
+
+The main selling point of this application is that it is able to generate 3D
+animated scenes in SVGs which are supported in VS Code and GitHub MarkDown
+previews, providing an alternative to GIFs.
+
+Theoretically, animations could be made at least somewhat interactive using SMIL
+animation triggers (probably not in the SVG CSS animation case), but that's not
+an avenue I am pursuing at the moment.
 
 ## Maintenance Status
 
-Not actively maintained.
+This application is not really maintained.
 
 ## Similar Projects
 
@@ -29,13 +38,16 @@ having to do with SVG and 3D.
 
 ## To-Do
 
-### Implement orbit control for camera navigation in the scene
+### Implement SVG CSS animation too and compare the sizes of the two generators
+
+### Implement orbit control for camera navigation in the browser scene
 
 Either UI controls or 2D to 3D cursor approximation.
 
 ### Pull out the `rotate` transformation and implement other transformations
 
-Add translate, scale, skew.
+Add translate, scale, skew. Move these either to the `esm-matrix` library or a
+whole new library.
 
 ### Prototype depth-sensitive strokes in another project
 
@@ -47,30 +59,12 @@ used, it is not a good fit for this project, as in this project, a static number
 of DOM elements in the SVG is one of the goals, but it will still be cool to
 have this as an experiment somewhere.
 
-### Implement SVG or CSS (in SVG) animations (like lazy susan)
+### Consider pre-rendering the browser preview animations to SVG too
 
-Use CSS in SVG or SVG `animate` to control line and polyline coordinates.
-
-Examples implemented in [`test.html`](test.html):
-
-```xml
-<line stroke="black">
-  <animate attributeName="x1" values="100;200;100" dur="1s" repeatCount="indefinite" />
-  <animate attributeName="y1" values="100;200;100" dur="1s" repeatCount="indefinite" />
-  <animate attributeName="x2" values="400;300;400" dur="1s" repeatCount="indefinite" />
-  <animate attributeName="y2" values="400;300;400" dur="1s" repeatCount="indefinite" />
-</line>
-```
-
-```xml
-<polyline stroke="black" fill="none">
-  <animate attributeName="points" values="100,200 400,300 200,300;200,100 300,400 300,200;100,200 400,300 200,100;100,200 400,300 200,300" dur="1s" repeatCount="indefinite" />
-</polyline>
-```
-
-Use this to represent baked animation either in both the viewport and the export
-or in export only if it is not economical to do this in the viewport where the
-animation is not baked (is dependent on user interaction).
+Reset only when a user interaction happens (unsupported at the moment, so we
+would only be animating the time). This might not be economical, so keep the
+mount+reconcile flow as an alternative / the sole solution if this doesn't work
+out.
 
 ### Implement object tesselation functions and consider pulling them out
 
@@ -139,7 +133,7 @@ It would also be useful to filter out those which support dead body indication
 so I could use that as a marker for the end of an animation when doing animation
 in the SVG or using CSS in SVG.
 
-### Add ellipses among the supported shapes and see if their perspective representation can be approximated
+### Support ellipses and see if their perspective representation can be approximated
 
 I will have to research this, but I believe an ellipse in 3D might still be
 representable using an ellipse in 2D even accounting for its orientation and
@@ -154,15 +148,11 @@ to polylines (is it more expensive?).
 
 ### Fix the cat and dog models being too far away from the camera and flat
 
-### Introduce mutating methods for matrix and point manipulation to avoid allocations
+### Introduce mutating methods for matrix and point manipulationin `esm-matrix`
 
 Mutating the matrices in place is faster than generating new instances and
 replacing the references, so all matrix operations will need to be updated to
 reflect this.
-
-I might want to take a look at pulling the matrix operations out to their own
-ESM module and providing pairs for each operations, one which returns a new copy
-and one which mutates the arguments.
 
 ### Introduce a reproducible Puppeteer harness for profiling performance
 

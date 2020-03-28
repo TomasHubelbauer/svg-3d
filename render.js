@@ -39,13 +39,13 @@ function project(point, camera, cameraOrientation) {
   return [(width / 2) + x * size, (height / 2) + y * size];
 }
 
-export default function render(_shapes, maxZ, minZ) {
+export default function render(_shapes, maxZ, minZ, lazySusan) {
   const t = window.performance.now() / 1000;
   const camera = [0, 0, 0];
   const cameraOrientation = [0, 0, 0];
   const offset = -(maxZ - minZ) * 2;
   const center = [0, 0, offset];
-  const rotation = [t, t, t];
+  const rotation = lazySusan !== undefined ? [lazySusan, lazySusan, lazySusan] : [t, t, t];
   const shapes = [];
 
   // Apply the model transformation

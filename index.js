@@ -4,20 +4,21 @@ import render from './render.js';
 import mount from './mount.js';
 import parse from 'https://tomashubelbauer.github.io/esm-obj/index.js';
 import plot from 'https://tomashubelbauer.github.io/esm-svg-timeseries/index.js';
+import animate from './animate.js';
 
 window.addEventListener('load', () => {
   const canvasSvg = document.getElementById('canvasSvg');
   canvasSvg.setAttribute('width', width);
   canvasSvg.setAttribute('height', height);
 
+  const lazySusanA = document.getElementById('lazySusanA');
   const infoSpan = document.getElementById('infoSpan');
   const plotSvg = document.getElementById('plotSvg');
 
   let handle;
   function go(mesh) {
-    // Cache the shapes so that they can be cloned for mutability
-    const shapesText = JSON.stringify(mesh.shapes);
-
+    lazySusanA.href = 'data:application/svg,' + encodeURIComponent(animate(mesh).outerHTML);
+    lazySusanA.download = `${mesh.name}-lazy-susan.svg`;
     infoSpan.textContent = `${mesh.shapes.length} shapes`;
     window.cancelAnimationFrame(handle);
 
@@ -28,8 +29,7 @@ window.addEventListener('load', () => {
     let stick = 0;
     handle = window.requestAnimationFrame(function loop() {
       const stamp = performance.now();
-      let shapes = JSON.parse(shapesText);
-      shapes = render(shapes, mesh.maxZ, mesh.minZ);
+      const shapes = render(mesh.shapes, mesh.maxZ, mesh.minZ);
       const value = performance.now() - stamp;
       if (value > stick) {
         stick = value;
@@ -72,6 +72,7 @@ window.addEventListener('load', () => {
           return;
         }
 
+        mesh.name = input.files[0].name;
         go(mesh);
       });
 
@@ -98,6 +99,7 @@ window.addEventListener('load', () => {
           return;
         }
 
+        mesh.name = model;
         go(mesh);
       }
       catch (error) {
