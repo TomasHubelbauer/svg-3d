@@ -2,6 +2,7 @@ import width from './width.js';
 import height from './height.js';
 import render from './render.js';
 import parse from 'https://tomashubelbauer.github.io/esm-obj/index.js';
+import plot from 'https://tomashubelbauer.github.io/esm-svg-timeseries/index.js';
 
 window.addEventListener('load', () => {
   const canvasSvg = document.getElementById('canvasSvg');
@@ -9,15 +10,28 @@ window.addEventListener('load', () => {
   canvasSvg.setAttribute('height', height);
 
   const infoSpan = document.getElementById('infoSpan');
+  const plotSvg = document.getElementById('plotSvg');
 
   let handle;
   function go(mesh) {
     infoSpan.textContent = `${mesh.shapes.length} shapes`;
     window.cancelAnimationFrame(handle);
+    const data = [];
+    let stick = 0;
     handle = window.requestAnimationFrame(function loop() {
       const stamp = performance.now();
       render(mesh, canvasSvg);
-      document.title = `${performance.now() - stamp} script time per frame`;
+      const value = performance.now() - stamp;
+      if (value > stick) {
+        stick = value;
+      }
+
+      data.push({ stamp: new Date(), value });
+      if (data.length === 100) {
+        data.shift();
+      }
+
+      plot(plotSvg, data, 0, stick);
       handle = window.requestAnimationFrame(loop);
     });
   }
@@ -59,7 +73,7 @@ window.addEventListener('load', () => {
     input.click();
   });
 
-  for (const model of ['Box', 'Prism', 'Desk', 'Dog', 'Cat', 'Cottage', 'Sofa'].reverse() /* Counter-act DOM insertion order */) {
+  for (const model of ['Box', 'Prism', 'Desk', 'Dog', 'Cat', 'Cottage', 'Sofa']) {
     const modelButton = document.createElement('button');
     modelButton.textContent = model;
     modelButton.addEventListener('click', async () => {
@@ -80,7 +94,7 @@ window.addEventListener('load', () => {
       }
     });
 
-    canvasSvg.insertAdjacentElement('afterend', modelButton);
+    previewButton.insertAdjacentElement('beforebegin', modelButton);
     if (model === 'Box') {
       modelButton.click();
     }

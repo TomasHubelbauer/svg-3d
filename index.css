@@ -1,4 +1,4 @@
-svg {
+#canvasSvg {
   background-image:
     linear-gradient(45deg, silver 25%, transparent 25%),
     linear-gradient(-45deg, silver 25%, transparent 25%),
