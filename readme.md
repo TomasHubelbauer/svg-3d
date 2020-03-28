@@ -205,3 +205,10 @@ also be able to maybe control `requestAnimationFrame` rate if I need that.
 
 The WIP version is much faster, because it cuts down on allocations, but I made
 a mistake somewhere and now the mesh slides towards the origin as it rotates.
+
+### Use Playwright to capture frame by frame progress of the animation and compare
+
+Chrome, Firefox and Safari might all be supported. Capture a series of frames
+from the SVG playback and compare them to the known baseline set of images made
+by making `animate` yield the individual frames and track how much each frame
+got delayed or not.
