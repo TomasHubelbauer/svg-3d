@@ -1,7 +1,7 @@
 import width from './width.js';
 import height from './height.js';
 import render from './render.js';
-import parse from './models/parse.js';
+import parse from 'https://tomashubelbauer.github.io/esm-obj/index.js';
 
 window.addEventListener('load', () => {
   const canvasSvg = document.getElementById('canvasSvg');
