@@ -11,7 +11,7 @@
   </head>
   <body>
     <h1>Test</h1>
-    <h2>Line animation</h2>
+    <h2>Line SMIL animation</h2>
     <svg width="800" height="600">
       <line stroke="black">
         <animate attributeName="x1" values="100;200;100" dur="1s" repeatCount="indefinite" />
@@ -20,11 +20,70 @@
         <animate attributeName="y2" values="400;300;400" dur="1s" repeatCount="indefinite" />
       </line>
     </svg>
-    <h2>Polyline animation</h2>
+    <h2>Line CSS animation</h2>
+    <svg width="800" height="600">
+      <style>
+        line {
+          animation: animate 1s infinite;
+        }
+
+        @keyframes animate {
+          0% {
+            x1: 100;
+            y1: 100;
+            x2: 400;
+            y2: 400;
+          }
+
+          33% {
+            x1: 200;
+            y1: 200;
+            x2: 300;
+            y2: 300;
+          }
+
+          66% {
+            x1: 100;
+            y1: 100;
+            x2: 400;
+            y2: 400;
+          }
+        }
+      </style>
+      <line stroke="black" />
+    </svg>
+    <h2>Polyline SMIL animation</h2>
     <svg width="800" height="600">
       <polyline stroke="black" fill="none">
         <animate attributeName="points" values="100,200 400,300 200,300;200,100 300,400 300,200;100,200 400,300 200,100;100,200 400,300 200,300" dur="1s" repeatCount="indefinite" />
       </polyline>
+    </svg>
+    <h2>Polyline CSS animation</h2>
+    <svg width="800" height="600">
+      <style>
+        polyline {
+          animation: animate 1s infinite;
+        }
+
+        @keyframes animate {
+          0% {
+            points: '100, 200 400, 300 200, 300';
+          }
+
+          25% {
+            points: '200, 100 300, 400 300, 200';
+          }
+
+          50% {
+            points: '100, 200 400, 300 200, 100';
+          }
+
+          75% {
+            points: '100, 200 400, 300 200, 300';
+          }
+        }
+      </style>
+      <polyline stroke="black" fill="none" />
     </svg>
   </body>
 </html>
