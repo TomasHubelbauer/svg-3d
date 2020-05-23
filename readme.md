@@ -2,10 +2,6 @@
 
 ![](screencast.svg)
 
-**Note:** GitHub doesn't seem to support SVG SMIL animation in readme previews,
-until I develop a SVG CSS animator, please click the empty space above to go to
-the SVG file preview directly.
-
 This application allows for creation of SVGs depicting wireframe 3D scenes with
 true perspective. It is useful for generating educational and instructional SVGs
 which can be included in MarkDown documents and rendered in GitHub and VS Code
@@ -18,15 +14,12 @@ Why pursue the SVG route to animation when WebGL and HTML `canvas` exist?
 SVG is the only alternative to GIF animations when it comes to embedding them in
 MarkDown documents which can be previewed on GitHub and in VS Code. GIFs are
 ugly, large and slow. Some animation sharing sites already replace them with MP4
-videos or WebP, but that's not an option for MarkDown (although maybe WebP is?).
+videos or WebP, but that's not an option for MarkDown.
 
 I want a solution to hosting animated education and instructional content in
 MarkDown documents which can be hosted and previewed on GitHub and in VS Code.
 The ability to inspect the source of the animation and tweak it if desired is a
-huge bonus, and so it the vector based nature of SVG compated to rasters. So,
-even if WebP might be an option (I haven't checked its support in browsers and
-on GitHub and in VS Code previews), it is a raster which is worse in terms of
-tinkering with it.
+huge bonus, and so it the vector based nature of SVG compated to rasters.
 
 Since SVG can also be hosted in HTML, there is a potential for interactivity and
 I am somewhat entertaining this functionality, too, but it is a side-effect of
@@ -44,8 +37,7 @@ in the scene provides the best performance as it fully cuts down on DOM tree
 mutation and limits the interactivity to the SVG DOM attribute updates.
 
 Theoretically, animations could be made at least somewhat interactive using SMIL
-animation triggers (and maybe CSS animation using pseudo-states), but that's not
-an avenue I am pursuing at the moment.
+animation triggers, but that's not an avenue I am pursuing at the moment.
 
 ## Animation
 
@@ -55,51 +47,22 @@ even when not manipulated using JavaScript, such when displayed using an `img`
 element or when embedded in a MarkDown document and viewed in GitHub or VS Code
 MarkDown preview.
 
-Two "engines" for animation are available: SMIL and CSS.
-
-### SMIL Animation
-
 The `animate` SVG element is used to rearrange the shapes to create an illusion
 of motion. Each vertex, edge and face is included once in the SVG and animated
-this way. This produces small SVGs, however, GitHub lacks support for rendering
-the animation when previewing MarkDown files which use the SVG as an image.
-
-At the moment, SMIL animation support is as follows:
-
-| Context                                      | Support |
-|----------------------------------------------|---------|
-| GitHub SVG file preview                      | Yes     |
-| GitHub MarkDown file with SVG image preview  | No      |
-| VS Code MarkDown file with SVG image preview | Yes     |
-
-I have contacted GitHub support about the missing support in MarkDown previews
-as it is inconsistent with the fact that SVG file preview renders the animation.
-
-I will update this document whenever I hear back.
+this way. This produces small SVGs.
 
 This type of animation benefits from the amount of vertices, edges and faces
 staying constant during the course of the animation, because I have not yet
-implemented adding and removing shapes using SMIL and am not certain that is
-even possible. If it isn't, it could still be supported by mixing SMIL and CSS
-animation, however, so this will eventually be supported one way or another.
+implemented adding and removing shapes using `animate` and am not certain that
+it is even possible. If not, the shapes which are not supposed to show yet could
+be curled up to a point or hidden off-canvas.
 
-### CSS Animation
+## Support
 
-CSS in SVG animation can be used, however it is limited to animating layout
-properties, not general SVG attributes. This means that instead of animating
-vertices, edges and faces by changing their values, these shapes need to be
-duplicated in the animation for each frame and shown and hidden using the
-`display` CSS property. This results in large files, but is supported in GitHub
-MarkDown previews unlike the SMIL based solution, so both ways are currently
-supported until GitHub begins to support SMIL animation in MarkDown previews.
+Animation is supported in both GitHub and VS Code MarkDown previews.
 
-At the moment, CSS animation support is as follows:
-
-| Context                                      | Support |
-|----------------------------------------------|---------|
-| GitHub SVG file preview                      | Yes     |
-| GitHub MarkDown file with SVG image preview  | Yes     |
-| VS Code MarkDown file with SVG image preview | Yes     |
+Outside of those contexts, the support depends on the SVG renderer used and its
+support for `animate`.
 
 ## Performance
 
@@ -119,14 +82,6 @@ involve the DOM in the process.
 To learn more, see [Performance](#performance) and to see why I am pursuing this
 direction anyway, see [Motivation](#motivation).
 
-## Support
-
-See [Animation](#animation) to learn about the support of the individual engines
-in GitHub and VS Code MarkDown previews.
-
-Outside of those contexts, the support depends on the SVG renderer used and its
-support for SMIL and CSS depending on the animation engine choice.
-
 ## Maintenance Status
 
 This is a personal, spare-time project. I work on it when I have the time I want
@@ -143,7 +98,7 @@ having to do with SVG and 3D.
 
 ## To-Do
 
-### Povide camera position and orientation to `render` from the outside
+### Povide camera position in addition to its rotation to `render` from the UI
 
 ### Attach rotation and translation to a transform array on the mesh
 
@@ -153,24 +108,11 @@ use those in index to position the model before rendering it. Rendering will
 then only accept camera position and orientation and the mesh with its transform
 array.
 
-### Figure out why the SVG SMIL animation does not play on GitHub
-
-It renders an empty SVG in the readme preview on the repo home page, but going
-to the screencast file page directly, the preview there renders the SMIL
-animation. If this ends up being unsuppoted by GitHub, definitely support both
-SMIL and CSS animators and use the CSS animator in the readme, which I already
-know works, because I've used in
-[`svg-screencast`](https://github.com/tomashubelbauer/svg-screencast).
-
-Also see if this is true only for the readme or any MarkDown preview.
-
 ### Consider adding a tabbed UI with dynamic and static tabs
 
 Dynamic would host the SVG whose DOM gets updated using `requestAnimationFrame`
 and static would host the SVG with baked animation which only gets updated when
 the animation parameters change.
-
-### Implement SVG CSS animation too and compare the sizes of the two generators
 
 ### Implement orbit control for camera navigation in the browser scene
 
@@ -275,10 +217,6 @@ say two Beziers making up a single ellipse?
 The question is whether it is worth the effort, if the reduced DOM node count
 will matter when faced with the rasterization complexity of ellipses as opposed
 to polylines (is it more expensive?).
-
-### Fix the cottage model missing most faces in the render
-
-### Fix the cat and dog models being too far away from the camera and flat
 
 ### Introduce mutating methods for matrix and point manipulationin `esm-matrix`
 
