@@ -40,8 +40,8 @@ function project(point, camera, cameraOrientation) {
 
 const camera = [0, 0, 0];
 const cameraOrientation = [0, 0, 0];
-export default function render(_shapes, maxZ, minZ, rotation) {
-  const offset = -(maxZ - minZ) * 2;
+export default function render(_shapes, maxZ, minZ, rotation, offset2 = 0) {
+  const offset = -(maxZ - minZ) * 2 + offset2;
   const center = [0, 0, offset];
   const shapes = [];
 

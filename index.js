@@ -12,11 +12,21 @@ window.addEventListener('load', () => {
   canvasSvg.setAttribute('height', height);
 
   const lazySusanA = document.getElementById('lazySusanA');
+  const zoomInButton = document.getElementById('zoomInButton');
+  const zoomOutButton = document.getElementById('zoomOutButton');
   const infoSpan = document.getElementById('infoSpan');
   const plotSvg = document.getElementById('plotSvg');
 
+  let offset = 0;
+  let step = 1;
+  zoomInButton.addEventListener('click', () => offset += step);
+  zoomOutButton.addEventListener('click', () => offset -= step);
+
   let handle;
   function go(mesh) {
+    offset = 0;
+    step = (mesh.maxZ - mesh.minZ) / 10;
+
     lazySusanA.href = 'data:application/svg,' + encodeURIComponent(animate(mesh).outerHTML);
     lazySusanA.download = `${mesh.name}-lazy-susan.svg`;
     infoSpan.textContent = `${mesh.shapes.length} shapes`;
@@ -30,7 +40,8 @@ window.addEventListener('load', () => {
     handle = window.requestAnimationFrame(function loop() {
       const stamp = performance.now();
       const t = window.performance.now() / 1000;
-      const shapes = render(mesh.shapes, mesh.maxZ, mesh.minZ, [t, t, t]);
+      const shapes = render(mesh.shapes, mesh.maxZ, mesh.minZ, [t, t, t], offset);
+
       const value = performance.now() - stamp;
       if (value > stick) {
         stick = value;
@@ -43,7 +54,6 @@ window.addEventListener('load', () => {
 
       plot(plotSvg, data, 0, stick);
       const average = ~~(data.reduce((a, c) => a + c.value, 0) / data.length);
-      document.title = average;
       mount(canvasSvg, shapes);
       handle = window.requestAnimationFrame(loop);
     });
