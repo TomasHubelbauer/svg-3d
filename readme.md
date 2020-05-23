@@ -244,3 +244,13 @@ Chrome, Firefox and Safari might all be supported. Capture a series of frames
 from the SVG playback and compare them to the known baseline set of images made
 by making `animate` yield the individual frames and track how much each frame
 got delayed or not.
+
+### Implement cutting up the lines which cross the camera plane
+
+This will need to be precomputed based on the entire animation so we know to
+split them up from the get-go, but they could be cut and the part which is behing
+the camera plane hidden.
+
+### Implement hiding lines by curling them up to a point outside of the canvas
+
+This will enable culling for hiding shapes behind camera plane etc.
