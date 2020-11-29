@@ -2,105 +2,82 @@
 
 ![](screencast.svg)
 
-This application allows for creation of SVGs depicting wireframe 3D scenes with
-true perspective. It is useful for generating educational and instructional SVGs
-which can be included in MarkDown documents and rendered in GitHub and VS Code
-MarkDown previews. Interactive scenes which host SVG in HTML are also supported.
+SVG 3D allows you to render out a 3D animation into an SVG file using the SMIL
+`animate` element to animate an SVG `polyline` element's `points` attribute
+value in order to produce motion of the vertices, edges and ultimately, faces.
+Only wireframe rendering is supported at the moment, however material rendering
+is going to be explored in the future as well.
 
-## Motivation
+SVG 3D is meant for embedding 3D wireframe animations into MarkDown and HTML
+documents for the purposes of education, documentation, exploration and so on.
+The animated SVGs will be played back by VS Code MarkDown preview as well as
+GitHub MarkDown and SVG preview among other things.
 
-Why pursue the SVG route to animation when WebGL and HTML `canvas` exist?
+## Why not: `canvas`, `video`, WebGL, GIF, APNG, WebP, CSS animation, …
 
-SVG is the only alternative to GIF animations when it comes to embedding them in
-MarkDown documents which can be previewed on GitHub and in VS Code. GIFs are
-ugly, large and slow. Some animation sharing sites already replace them with MP4
-videos or WebP, but that's not an option for MarkDown.
+- `canvas`, `video` & WebGL will not play back in MarkDown preview renderers
+- GIF is a raster format with poor quality and no support for transparency
+- APNG and WebP are solid contenders but still raster and not scalable like SVG
+- CSS animations standalone cannot be used in MarkDown preview renderers
+- CSS animations instead of SMIL in SVG cannot animate the `points` attribute
 
-I want a solution to hosting animated education and instructional content in
-MarkDown documents which can be hosted and previewed on GitHub and in VS Code.
-The ability to inspect the source of the animation and tweak it if desired is a
-huge bonus, and so it the vector based nature of SVG compated to rasters.
+## Features
 
-Since SVG can also be hosted in HTML, there is a potential for interactivity and
-I am somewhat entertaining this functionality, too, but it is a side-effect of
-the animation focus, not a sole motivation.
+- Works in MarkDown when embedded as an image (VS Code preview, GitHub preview)
+- Vector format is scalable without quality loss with inspectable source code
+- File sizes are small and plain text format is GZIP friendly in HTTP transfer
+- Can potentially be made interactive when hosted in HTML using an SVG element
 
-## Interactivity
+## Development
 
-The SVG image can be hosted in HTML as well, allowing for the use of JavaScript
-to tweak the scene in effect enabling animation and interactivity options.
+Open `index.html` and hack!
 
-This application supports reconciling existing SVG DOM instead of mounting a new
-SVG DOM on each render, improving the performance of JavaScript-based usages.
-However, where possible, having an unchanging count of vertices, faces and edges
-in the scene provides the best performance as it fully cuts down on DOM tree
-mutation and limits the interactivity to the SVG DOM attribute updates.
+Configure your browser to support `fetch` over `file:` protocol or run using a
+static web server at your preference.
 
-Theoretically, animations could be made at least somewhat interactive using SMIL
-animation triggers, but that's not an avenue I am pursuing at the moment.
+### To-Do
 
-## Animation
+#### Ponder on the options for interactivity
 
-Aside from using JavaScript to provide animation and interactivity to the scene,
-an SVG based animation solution can also be used. This will preserve the effect
-even when not manipulated using JavaScript, such when displayed using an `img`
-element or when embedded in a MarkDown document and viewed in GitHub or VS Code
-MarkDown preview.
+There are two ways to make the SVGs interactive:
 
-The `animate` SVG element is used to rearrange the shapes to create an illusion
-of motion. Each vertex, edge and face is included once in the SVG and animated
-this way. This produces small SVGs.
+1. SVG SMIL animation triggers which might still work when embedded in an `img`
+2. JavaScript DOM control which will only work when embedded in an `svg` in HTML
 
-This type of animation benefits from the amount of vertices, edges and faces
-staying constant during the course of the animation, because I have not yet
-implemented adding and removing shapes using `animate` and am not certain that
-it is even possible. If not, the shapes which are not supposed to show yet could
-be curled up to a point or hidden off-canvas.
+It is best when the amount of vertices is static (so all elements are used 100 %
+of the time and we do not need to store extra elements outside  of the viewport
+to bring in later when more mesh is needed) however it is not strictly required
+as JavaScript DOM manipulation can bring elements in and out (but will cause a
+relayout).
 
-## Support
+For the HTML-bound JS-powered scenario, extend the UI to include PTZ and orbit
+control.
 
-Animation is supported in both GitHub and VS Code MarkDown previews.
+A physics engine could also be hooked in. For JS it would just affect the mesh
+directly, for SMIL we could bake the animation in.
 
-Outside of those contexts, the support depends on the SVG renderer used and its
-support for `animate`.
+- https://brm.io/matter-js
+- http://wellcaffeinated.net/PhysicsJS
+- http://piqnt.com/planck.js
+- https://github.com/lo-th/Oimo.js
+- https://github.com/kripken/box2d.js
 
-## Performance
+See how these are in terms of integration with 3rd paties. I don't want their
+rendering and I want to be able to simply send in the meshes in a basic format
+instead of adopting something which is too complex for my needs.
 
-The performance of the animation is up to the SVG renderer used. I am working on
-browser SVG renderer peformance comparison to provide some hard numbers on this.
+It would also be useful to filter out those which support dead body indication
+so I could use that as a marker for the end of an animation when doing animation
+in the SVG or using CSS in SVG.
 
-Additionally, JavaScript-interactive usages will incur a performance overhead in
-the form of DOM.
+#### Measure performance using Playwirght to record SVG DOM state at each point
 
-## Comparison with WebGL and `canvas`
+We can check the SVG DOM in each tick and collect performance metrics.
+Playwright also has a profiling API could also be used (includes screenshots).
+This performance testing could be run against Chrome/Edge and Firefox and Safari
+to see how it compares across the browsers and across changes I make.
 
-Both WebGL and `canvas` are accelerated, so both will be either more performant
-or at best as performant as an SVG based animation, and in case of JavaScript-
-interactive SVG scene, will likely always be more performant as they never
-involve the DOM in the process.
-
-To learn more, see [Performance](#performance) and to see why I am pursuing this
-direction anyway, see [Motivation](#motivation).
-
-## Maintenance Status
-
-This is a personal, spare-time project. I work on it when I have the time I want
-to dedicate to this particular project. I don't work on it assuming anyone else
-uses this or cares about this. In that way, this is more of a souce-available
-type project as opposed to an actual open source project with a community.
-
-If you find a use for this, let me know.
-
-## Similar Projects
-
-There is [Z-Dog](https://zzz.dog/) and also a lot of other people's pet projects
-having to do with SVG and 3D.
-
-## To-Do
-
-### Povide camera position in addition to its rotation to `render` from the UI
-
-### Attach rotation and translation to a transform array on the mesh
+#### Attach rotation and translation to a transform array on the mesh
 
 Right now they sit in `render`. Once the `rotate` function is in `esm-matrix`,
 add one for translation and then a combining one for rotation around origin and
@@ -108,22 +85,12 @@ use those in index to position the model before rendering it. Rendering will
 then only accept camera position and orientation and the mesh with its transform
 array.
 
-### Consider adding a tabbed UI with dynamic and static tabs
-
-Dynamic would host the SVG whose DOM gets updated using `requestAnimationFrame`
-and static would host the SVG with baked animation which only gets updated when
-the animation parameters change.
-
-### Implement orbit control for camera navigation in the browser scene
-
-Either UI controls or 2D to 3D cursor approximation.
-
-### Pull out the `rotate` transformation and implement other transformations
+#### Pull out the `rotate` transformation and implement other transformations
 
 Add translate, scale, skew. Move these either to the `esm-matrix` library or a
 whole new library.
 
-### Prototype depth-sensitive strokes in another project
+#### Prototype depth-sensitive strokes in another project
 
 Find a way to render edges as polylines or multiple line elements whose strokes
 gradually vary in relation to their depth respective to the camera.
@@ -133,28 +100,21 @@ used, it is not a good fit for this project, as in this project, a static number
 of DOM elements in the SVG is one of the goals, but it will still be cool to
 have this as an experiment somewhere.
 
-### Consider pre-rendering the browser preview animations to SVG too
-
-Reset only when a user interaction happens (unsupported at the moment, so we
-would only be animating the time). This might not be economical, so keep the
-mount+reconcile flow as an alternative / the sole solution if this doesn't work
-out.
-
-### Implement object tesselation functions and consider pulling them out
+#### Implement object tesselation functions and consider pulling them out
 
 Example tesselators: box, prism, sphere (of tris, quads, spool-like stripes, …).
 Also the Utah teapot and maybe Suzanne depending on complexity.
 
-### Add an example OBJ which uses the line shape and update box and prism to it
+#### Add an example OBJ which uses the line shape and update box and prism to it
 
 Wavefront OBJ supports a `l` element so it can be used.
 
-### Consider implementing the hierarchy transformation model: world, scene, mesh
+#### Consider implementing the hierarchy transformation model: world-scene-mesh
 
 This is the standard in 3D and video game industries so it might make sense to
 adopt it if I want to make this robust eventually.
 
-### Experiment with shape culling solutions using stroke and fill gradient/mask
+#### Experiment with shape culling solutions using stroke and fill gradient/mask
 
 SVG has a few interesting bits related to stroke and fill styling. Perhaps these
 could be used to implement wireframe or even textured edge and face culling.
@@ -191,23 +151,7 @@ Useful links for this:
 - https://stackoverflow.com/q/42874203/2715716
 - https://css-tricks.com/svg-line-animation-works
 
-### Connect with a physics engine to use as a renderer and offload the physics
-
-- https://brm.io/matter-js
-- http://wellcaffeinated.net/PhysicsJS
-- http://piqnt.com/planck.js
-- https://github.com/lo-th/Oimo.js
-- https://github.com/kripken/box2d.js
-
-See how these are in terms of integration with 3rd paties. I don't want their
-rendering and I want to be able to simply send in the meshes in a basic format
-instead of adopting something which is too complex for my needs.
-
-It would also be useful to filter out those which support dead body indication
-so I could use that as a marker for the end of an animation when doing animation
-in the SVG or using CSS in SVG.
-
-### Support ellipses and see if their perspective representation can be approximated
+#### Support ellipses if their perspective representation can be approximated
 
 I will have to research this, but I believe an ellipse in 3D might still be
 representable using an ellipse in 2D even accounting for its orientation and
@@ -218,39 +162,18 @@ The question is whether it is worth the effort, if the reduced DOM node count
 will matter when faced with the rasterization complexity of ellipses as opposed
 to polylines (is it more expensive?).
 
-### Introduce mutating methods for matrix and point manipulationin `esm-matrix`
+#### Introduce mutating methods for matrix and point manipulationin `esm-matrix`
 
 Mutating the matrices in place is faster than generating new instances and
 replacing the references, so all matrix operations will need to be updated to
 reflect this.
 
-### Introduce a reproducible Puppeteer harness for profiling performance
-
-This is so that I am able to switch around the render logic and run it through
-it and it would run it a few times and collect the performance metrics and then
-I could compare them.
-
-Puppeteer has a profiling API which will be very useful for this and I should
-also be able to maybe control `requestAnimationFrame` rate if I need that.
-
-### Figure out what's broken in `render-wip` compared to `render`
-
-The WIP version is much faster, because it cuts down on allocations, but I made
-a mistake somewhere and now the mesh slides towards the origin as it rotates.
-
-### Use Playwright to capture frame by frame progress of the animation and compare
-
-Chrome, Firefox and Safari might all be supported. Capture a series of frames
-from the SVG playback and compare them to the known baseline set of images made
-by making `animate` yield the individual frames and track how much each frame
-got delayed or not.
-
-### Implement cutting up the lines which cross the camera plane
+#### Implement cutting out the lines parts which cross the camera plane
 
 This will need to be precomputed based on the entire animation so we know to
 split them up from the get-go, but they could be cut and the part which is behing
 the camera plane hidden.
 
-### Implement hiding lines by curling them up to a point outside of the canvas
+#### Implement hiding lines by curling them up to a point outside of the canvas
 
 This will enable culling for hiding shapes behind camera plane etc.

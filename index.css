@@ -1,4 +1,12 @@
-#canvasSvg {
+body {
+  font: icon;
+}
+
+#canvasDiv svg {
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, .2);
+}
+
+#canvasDiv svg:hover {
   background-image:
     linear-gradient(45deg, silver 25%, transparent 25%),
     linear-gradient(-45deg, silver 25%, transparent 25%),
@@ -6,4 +14,5 @@
     linear-gradient(-45deg, transparent 75%, silver 75%);
   background-size: 20px 20px;
   background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  display: inline-block;
 }
