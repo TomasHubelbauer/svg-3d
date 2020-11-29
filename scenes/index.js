@@ -5,6 +5,7 @@ import * as desk from './desk/index.js';
 import * as sofa from './sofa/index.js';
 import * as obj from './obj/index.js';
 import * as me from './me/index.js';
+import * as cthulu from './cthulu/index.js';
 
 export default [
   box,
@@ -14,4 +15,5 @@ export default [
   sofa,
   obj,
   me,
+  cthulu,
 ];

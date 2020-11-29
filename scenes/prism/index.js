@@ -12,5 +12,5 @@ export default async function () {
     { type: 'edge', from: [-1, 1, 1], to: [0, -1, 0] },
   ];
 
-  return animate(640, 480, shapes, hover());
+  return animate(640, 480, [shapes], hover());
 }

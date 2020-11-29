@@ -1,137 +1,166 @@
 import add3x1To3x1 from 'https://tomashubelbauer.github.io/esm-matrix/immutable/add3x1To3x1.js';
 import rotate from '../rotate.js';
 import animate from '../animate.js';
+import obj from '../obj/index.js';
 
 export const name = 'Me';
 
 export default async function () {
-  const shapes = [
-    //{ type: 'face', points: [[-12, -1, 1], [12, -1, 1], [30, -1, -5], [-30, -1, -5]] },
-  ];
+  const shapes = [];
+  let textShapes = [];
 
   let cursor = 10;
   let unit = 1;
 
   // T
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor - unit, 1, 0] });
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor - unit, 1, 0] });
   cursor -= unit / 2;
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
   cursor -= unit;
+  shapes.push(textShapes);
 
   // O
-  shapes.push({ type: 'edge', from: [cursor, -.75, 0], to: [cursor, .75, 0] });
-  shapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor -= unit / 4, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 4, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 4, .75, 0] });
-  shapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor, -.75, 0] });
-  shapes.push({ type: 'edge', from: [cursor, -.75, 0], to: [cursor += unit / 4, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor += unit / 4, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor += unit / 4, -.75, 0] });
-
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, -.75, 0], to: [cursor, .75, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor -= unit / 4, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 4, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 4, .75, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor, -.75, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, -.75, 0], to: [cursor += unit / 4, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor += unit / 4, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor += unit / 4, -.75, 0] });
   cursor -= unit * 1.25;
+  shapes.push(textShapes);
 
   // M
-  shapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 2, 0, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor -= unit / 2, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 2, 0, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor -= unit / 2, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
   cursor -= unit / 2;
+  shapes.push(textShapes);
 
   // A
-  shapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor, .75, 0] });
-  shapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor -= unit / 4, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 4, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 4, .75, 0] });
-  shapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor + unit / 1.25, 0, 0] });
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor, .75, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor -= unit / 4, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 4, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 4, .75, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor + unit / 1.25, 0, 0] });
   cursor -= unit / 2;
+  shapes.push(textShapes);
 
   // S
+  textShapes = [];
   unit /= 1.5;
-  shapes.push({ type: 'edge', from: [cursor - unit, 1, 0], to: [cursor - unit / 3, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit / 3, 1, 0], to: [cursor, .75, 0] });
-  shapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor, .25, 0] });
-  shapes.push({ type: 'edge', from: [cursor, .25, 0], to: [cursor - unit, -.25, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit, -.25, 0], to: [cursor - unit, -.75, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit, -.75, 0], to: [cursor - unit / 1.5, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit / 1.5, -1, 0], to: [cursor, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit, 1, 0], to: [cursor - unit / 3, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit / 3, 1, 0], to: [cursor, .75, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor, .25, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, .25, 0], to: [cursor - unit, -.25, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit, -.25, 0], to: [cursor - unit, -.75, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit, -.75, 0], to: [cursor - unit / 1.5, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit / 1.5, -1, 0], to: [cursor, -1, 0] });
   unit *= 1.5;
   cursor -= unit * 2;
+  shapes.push(textShapes);
 
   // H
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor -= unit, 0, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor -= unit, 0, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
   cursor -= unit / 2;
+  shapes.push(textShapes);
 
   // U
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor -= unit / 1.25, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor, 1, 0] });
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor -= unit / 1.25, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor, 1, 0] });
   cursor -= unit / 2;
+  shapes.push(textShapes);
 
   // B
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor - unit / 1.5, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit / 1.5, 1, 0], to: [cursor - unit / 1.5, .25, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit / 1.5, .25, 0], to: [cursor, 0, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor - unit / 1.5, -.25, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit / 1.5, -.25, 0], to: [cursor - unit / 1.5, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit / 1.5, -1, 0], to: [cursor, -1, 0] });
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor - unit / 1.5, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit / 1.5, 1, 0], to: [cursor - unit / 1.5, .25, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit / 1.5, .25, 0], to: [cursor, 0, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor - unit / 1.5, -.25, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit / 1.5, -.25, 0], to: [cursor - unit / 1.5, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit / 1.5, -1, 0], to: [cursor, -1, 0] });
   cursor -= unit * 1.25;
+  shapes.push(textShapes);
 
   // E
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor - unit / 2, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor - unit / 2, 0, 0] });
-  shapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor - unit / 2, -1, 0] });
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor - unit / 2, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor - unit / 2, 0, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor - unit / 2, -1, 0] });
   cursor -= unit;
+  shapes.push(textShapes);
 
   // L
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor - unit / 2, -1, 0] });
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor - unit / 2, -1, 0] });
   cursor -= unit / 1.15;
+  shapes.push(textShapes);
 
   // B
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor - unit / 1.5, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit / 1.5, 1, 0], to: [cursor - unit / 1.5, .25, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit / 1.5, .25, 0], to: [cursor, 0, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor - unit / 1.5, -.25, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit / 1.5, -.25, 0], to: [cursor - unit / 1.5, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit / 1.5, -1, 0], to: [cursor, -1, 0] });
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor - unit / 1.5, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit / 1.5, 1, 0], to: [cursor - unit / 1.5, .25, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit / 1.5, .25, 0], to: [cursor, 0, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor - unit / 1.5, -.25, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit / 1.5, -.25, 0], to: [cursor - unit / 1.5, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit / 1.5, -1, 0], to: [cursor, -1, 0] });
   cursor -= unit * 1.25;
+  shapes.push(textShapes);
 
   // A
-  shapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor, .75, 0] });
-  shapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor -= unit / 4, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 4, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 4, .75, 0] });
-  shapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor + unit / 1.25, 0, 0] });
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor, .75, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor -= unit / 4, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 4, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor -= unit / 4, .75, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, .75, 0], to: [cursor, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor + unit / 1.25, 0, 0] });
   cursor -= unit / 2;
+  shapes.push(textShapes);
 
   // U
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor -= unit / 1.25, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor, 1, 0] });
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor -= unit / 1.25, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor, 1, 0] });
   cursor -= unit / 2;
+  shapes.push(textShapes);
 
   // E
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor - unit / 2, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor - unit / 2, 0, 0] });
-  shapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor - unit / 2, -1, 0] });
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor - unit / 2, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor - unit / 2, 0, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, -1, 0], to: [cursor - unit / 2, -1, 0] });
   cursor -= unit;
+  shapes.push(textShapes);
 
   // R
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor - unit / 1.5, 1, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit / 1.5, 1, 0], to: [cursor - unit / 1.5, .25, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit / 1.5, .25, 0], to: [cursor, 0, 0] });
-  shapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor - unit / 1.5, -.25, 0] });
-  shapes.push({ type: 'edge', from: [cursor - unit / 1.5, -.25, 0], to: [cursor - unit / 1.5, -1, 0] });
+  textShapes = [];
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor, -1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 1, 0], to: [cursor - unit / 1.5, 1, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit / 1.5, 1, 0], to: [cursor - unit / 1.5, .25, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit / 1.5, .25, 0], to: [cursor, 0, 0] });
+  textShapes.push({ type: 'edge', from: [cursor, 0, 0], to: [cursor - unit / 1.5, -.25, 0] });
+  textShapes.push({ type: 'edge', from: [cursor - unit / 1.5, -.25, 0], to: [cursor - unit / 1.5, -1, 0] });
   cursor -= unit * 1.25;
+  shapes.push(textShapes);
 
   for (let index = 0; index < 10; index++) {
     const originJitter = [2, 1, 2];
@@ -157,20 +186,19 @@ export default async function () {
       }
     }
 
-    shapes.push(...topShapes);
-    shapes.push(...bottomShapes);
+    shapes.push(topShapes);
+    shapes.push(bottomShapes);
   }
 
   const frames = [];
   for (let angle = 0; angle <= Math.PI * 2; angle += Math.PI / 20) {
-    const center = [0, Math.sin(angle), -3.5];
     frames.push([
-      point => add3x1To3x1(point, center),
-      point => rotate(point, center, [Math.tan(angle) / 20, Math.tan(angle / 2) / 100, 0]),
+      (point, objectIndex) => add3x1To3x1(point, [Math.tan(angle + objectIndex) / shapes.length / 2, Math.sin(angle + objectIndex) / shapes.length, -3.5 + Math.cos(objectIndex) / 10]),
+      (point, objectIndex) => rotate(point, [0, 0, 0], [Math.tan(angle) / 20, Math.tan(angle / 2) / 100, objectIndex / shapes.length / 10]),
     ]);
   }
 
-  return animate(900, 200, shapes, frames, 2);
+  return animate(900, 200, shapes, frames, 2, 1, false, 1);
 }
 
 function jitter([x, y, z], [sz, sy, sx]) {

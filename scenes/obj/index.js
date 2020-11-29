@@ -6,5 +6,5 @@ export const name = '…';
 
 export default async function () {
   const { shapes } = await pick();
-  return animate(640, 480, shapes, hover());
+  return animate(640, 480, [shapes], hover());
 }

@@ -6,5 +6,5 @@ export const name = 'Cottage';
 
 export default async function () {
   const { shapes } = await download('scenes/cottage/model.obj');
-  return animate(640, 480, shapes, hover(30, -10));
+  return animate(640, 480, [shapes], hover(30, -10));
 }
