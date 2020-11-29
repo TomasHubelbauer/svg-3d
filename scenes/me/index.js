@@ -149,7 +149,7 @@ export default async function () {
     ]);
   }
 
-  return animate(700, 200, shapes, frames, 2);
+  return animate(900, 200, shapes, frames, 2);
 }
 
 function jitter({ x, y, z }, { sz, sy, sx }) {
