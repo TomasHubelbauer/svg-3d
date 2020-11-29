@@ -1,6 +1,6 @@
 # [SVG 3D](https://tomashubelbauer.github.io/svg-3d)
 
-![](screencast.svg)
+![](demo.svg)
 
 SVG 3D allows you to render out a 3D animation into an SVG file using the SMIL
 `animate` element to animate an SVG `polyline` element's `points` attribute
