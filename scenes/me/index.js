@@ -134,10 +134,31 @@ export default async function () {
   cursor -= unit * 1.25;
 
   for (let index = 0; index < 10; index++) {
-    const originJitter = { sx: 2, sy: 1, sz: 2 };
-    const scaleJitter = { sx: .1, sy: .1, sz: .5 };
-    shapes.push(...box(jitter({ x: (-4 + index) * 2.5, y: 2, z: 0 }, originJitter), jitter({ x: .5, y: .5, z: .05 }, scaleJitter)));
-    shapes.push(...box(jitter({ x: (-4 + index) * 2.5, y: -2, z: 0 }, originJitter), jitter({ x: .5, y: .5, z: .05 }, scaleJitter)));
+    const originJitter = [2, 1, 2];
+    const topOrigin = jitter([(-4 + index) * 2.5, 2, 0], originJitter);
+    const bottomOrigin = jitter([(-4 + index) * 2.5, -2, 0], originJitter);
+    const scaleJitter = [.1, .1, .075];
+    const topShapes = box(topOrigin, jitter([.25, .25, .05], scaleJitter));
+    const bottomShapes = box(bottomOrigin, jitter([.25, .25, .05], scaleJitter));
+    for (const cube of [{ shapes: topShapes, origin: topOrigin }, { shapes: bottomShapes, origin: bottomOrigin }]) {
+      const rotation = [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI];
+      for (const shape of cube.shapes) {
+        switch (shape.type) {
+          case 'edge': {
+            shape.from = rotate(shape.from, cube.origin, rotation);
+            shape.to = rotate(shape.to, cube.origin, rotation);
+            break;
+          }
+          case 'face': {
+            shape.points = shape.points.map(point => rotate(point, cube.origin, rotation));
+            break;
+          }
+        }
+      }
+    }
+
+    shapes.push(...topShapes);
+    shapes.push(...bottomShapes);
   }
 
   const frames = [];
@@ -152,11 +173,11 @@ export default async function () {
   return animate(900, 200, shapes, frames, 2);
 }
 
-function jitter({ x, y, z }, { sz, sy, sx }) {
-  return { x: x + (Math.random() - .5) * sx, y: y + (Math.random() - .5) * sy, z: z + (Math.random() - .5) * sz };
+function jitter([x, y, z], [sz, sy, sx]) {
+  return [x + (Math.random() - .5) * sx, y + (Math.random() - .5) * sy, z + (Math.random() - .5) * sz];
 }
 
-function box({ x, y, z }, { x: sx, y: sy, z: sz }) {
+function box([x, y, z], [sx, sy, sz]) {
   return [
     { type: 'face', points: [[x - sx, y - sy, z - sz], [x + sx, y - sy, z - sz], [x + sx, y + sy, z - sz], [x - sx, y + sy, z - sz]] }, // back face
     { type: 'face', points: [[x - sx, y - sy, z + sz], [x + sx, y - sy, z + sz], [x + sx, y + sy, z + sz], [x - sx, y + sy, z + sz]] }, // front face
