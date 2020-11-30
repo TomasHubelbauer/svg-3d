@@ -177,3 +177,11 @@ the camera plane hidden.
 #### Implement hiding lines by curling them up to a point outside of the canvas
 
 This will enable culling for hiding shapes behind camera plane etc.
+
+### Play around with chromatic aberration filter and use it for the "Me" demo
+
+https://inkscape.org/~fabien.fellay/%E2%98%85chromatic-aberration-filters
+
+This would work by triplicating all the shapes and marking each copy to be drawn
+with a different color. Not sure if the animation could be reused for each of the
+three instances or if it will have to be duplicated as well.
