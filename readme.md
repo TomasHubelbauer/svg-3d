@@ -16,7 +16,7 @@ GitHub MarkDown and SVG preview among other things.
 ## Why not: `canvas`, `video`, WebGL, GIF, APNG, WebP, CSS animation, …
 
 - `canvas`, `video` & WebGL will not play back in MarkDown preview renderers
-- GIF is a raster format with poor quality and no support for transparency
+- GIF is a raster format with poor quality and no support for scaling
 - APNG and WebP are solid contenders but still raster and not scalable like SVG
 - CSS animations standalone cannot be used in MarkDown preview renderers
 - CSS animations instead of SMIL in SVG cannot animate the `points` attribute
